@@ -8,7 +8,6 @@ local Lighting = game:GetService("Lighting")
 
 local player = Players.LocalPlayer
 
--- Змінні стану
 local isAutoClicking = false
 local isAutoBossActive = false
 local isAutoEggActive = false
@@ -16,7 +15,6 @@ local targetCPS = 30
 local selectedBossName = "Bully"
 local selectedEggName = "Basic Egg"
 
--- Повні списки босів та яєць з офіційної вікі
 local bossList = {
     "Bully", "Teacher", "Gym Rat", "Mafia Boss", "Champion",
     "Noob", "Trainer", "Rogue", "Master", "Undead Sparta",
@@ -62,12 +60,11 @@ local eggList = {
 }
 local eggIndex = 1
 
--- Створення інтерфейсу з безпечним прикріпленням для Delta
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "DeltaUltimateArmWrestleHub"
 screenGui.ResetOnSpawn = false
 
-local success, err = pcall(function()
+pcall(function()
     if syn and syn.protect_gui then
         syn.protect_gui(screenGui)
         screenGui.Parent = CoreGui
@@ -77,7 +74,7 @@ local success, err = pcall(function()
         screenGui.Parent = CoreGui
     end
 end)
-if not success or not screenGui.Parent then
+if not screenGui.Parent then
     screenGui.Parent = player:WaitForChild("PlayerGui")
 end
 
@@ -138,7 +135,6 @@ local miniCorner = Instance.new("UICorner")
 miniCorner.CornerRadius = UDim.new(1, 0)
 miniCorner.Parent = miniIcon
 
--- Панель вкладок
 local tabContainer = Instance.new("Frame")
 tabContainer.Size = UDim2.new(0.92, 0, 0, 40)
 tabContainer.Position = UDim2.new(0.04, 0, 0.12, 0)
@@ -204,7 +200,6 @@ tabEgg.MouseButton1Click:Connect(function() switchTab(pageEgg, tabEgg) end)
 tabOpt.MouseButton1Click:Connect(function() switchTab(pageOpt, tabOpt) end)
 tabClick.BackgroundColor3 = Color3.fromRGB(0, 122, 255)
 
--- CLICK TAB
 local toggleButton = Instance.new("TextButton")
 toggleButton.Size = UDim2.new(1, 0, 0, 50)
 toggleButton.Position = UDim2.new(0, 0, 0.05, 0)
@@ -255,7 +250,6 @@ clickInfo.TextSize = 12
 clickInfo.TextWrapped = true
 clickInfo.Parent = pageClick
 
--- BOSS TAB
 local bossInfo = Instance.new("TextLabel")
 bossInfo.Size = UDim2.new(1, 0, 0, 35)
 bossInfo.Position = UDim2.new(0, 0, 0, 0)
@@ -301,7 +295,6 @@ local btCorner = Instance.new("UICorner")
 btCorner.CornerRadius = UDim.new(0, 10)
 btCorner.Parent = bossToggleButton
 
--- EGG TAB
 local eggInfo = Instance.new("TextLabel")
 eggInfo.Size = UDim2.new(1, 0, 0, 35)
 eggInfo.Position = UDim2.new(0, 0, 0, 0)
@@ -347,7 +340,6 @@ local eCorner = Instance.new("UICorner")
 eCorner.CornerRadius = UDim.new(0, 10)
 eCorner.Parent = eggToggleButton
 
--- OPTIMIZING TAB
 local optButton = Instance.new("TextButton")
 optButton.Size = UDim2.new(1, 0, 0, 50)
 optButton.Position = UDim2.new(0, 0, 0.1, 0)
@@ -373,7 +365,6 @@ optDesc.TextSize = 12
 optDesc.TextWrapped = true
 optDesc.Parent = pageOpt
 
--- Зелене коло клікера
 local targetCircle = Instance.new("TextButton")
 targetCircle.Name = "TargetCircle"
 targetCircle.Size = UDim2.new(0, 50, 0, 50)
@@ -390,7 +381,6 @@ local circleCorner = Instance.new("UICorner")
 circleCorner.CornerRadius = UDim.new(1, 0)
 circleCorner.Parent = targetCircle
 
--- Кнопки керування
 minimizeButton.MouseButton1Click:Connect(function()
     mainFrame.Visible = false
     miniIcon.Visible = true
@@ -459,7 +449,6 @@ cpsInput.FocusLost:Connect(function()
     end
 end)
 
--- Функції кліка та введення
 local function clickAt(btn)
     local ok, err = pcall(function()
         local inset = GuiService:GetGuiInset()
@@ -480,7 +469,6 @@ local function holdKeyE(duration)
     end)
 end
 
--- Логіка пошуку боса
 local function scanAndFightBossWiki()
     local ok, err = pcall(function()
         local targetFound = false
@@ -512,7 +500,6 @@ local function scanAndFightBossWiki()
     if not ok then warn("Помилка Авто-Боса:", err) end
 end
 
--- Логіка пошуку яйця
 local function scanAndOpenEgg()
     local ok, err = pcall(function()
         local targetFound = false
@@ -539,4 +526,17 @@ local function scanAndOpenEgg()
         if targetFound then
             task.wait(0.2)
             holdKeyE(0.4)
-             
+        end
+    end)
+    if not ok then warn("Помилка Авто-Яйця:", err) end
+end
+
+local accumulatedTime = 0
+local scannerTimer = 0
+
+RunService.Heartbeat:Connect(function(dt)
+    if isAutoClicking then
+        accumulatedTime = accumulatedTime + dt
+        local interval = 1 / targetCPS
+        while accumulatedTime >= interval do
+            accumulat
