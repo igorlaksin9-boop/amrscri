@@ -540,3 +540,21 @@ RunService.Heartbeat:Connect(function(dt)
         local interval = 1 / targetCPS
         while accumulatedTime >= interval do
             accumulat
+            accumulatedTime = accumulatedTime - interval
+            clickAt(targetCircle)
+        end
+    else
+        accumulatedTime = 0
+    end
+
+    scannerTimer = scannerTimer + dt
+    if scannerTimer >= 1 then
+        scannerTimer = 0
+        if isAutoBossActive then
+            task.spawn(scanAndFightBossWiki)
+        end
+        if isAutoEggActive then
+            task.spawn(scanAndOpenEgg)
+        end
+    end
+end)
