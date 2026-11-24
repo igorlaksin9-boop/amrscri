@@ -16,7 +16,7 @@ local targetCPS = 30
 local selectedBossName = "Bully"
 local selectedEggName = "Basic Egg"
 
--- Повні списки босів та яєць
+-- Повні списки босів та яєць з офіційної вікі
 local bossList = {
     "Bully", "Teacher", "Gym Rat", "Mafia Boss", "Champion",
     "Noob", "Trainer", "Rogue", "Master", "Undead Sparta",
@@ -62,9 +62,9 @@ local eggList = {
 }
 local eggIndex = 1
 
--- Створення інтерфейсу з урахуванням специфіки Delta
+-- Створення інтерфейсу з безпечним прикріпленням для Delta
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "DeltaFixedArmWrestleHub"
+screenGui.Name = "DeltaUltimateArmWrestleHub"
 screenGui.ResetOnSpawn = false
 
 local success, err = pcall(function()
@@ -98,7 +98,7 @@ uiCorner.Parent = mainFrame
 local titleLabel = Instance.new("TextLabel")
 titleLabel.Size = UDim2.new(1, 0, 0, 45)
 titleLabel.BackgroundColor3 = Color3.fromRGB(30, 30, 38)
-titleLabel.Text = "⚡ Delta Fixed Hub (Clean)"
+titleLabel.Text = "⚡ Delta Ultimate Hub"
 titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 titleLabel.Font = Enum.Font.GothamBold
 titleLabel.TextSize = 13
@@ -366,7 +366,7 @@ local optDesc = Instance.new("TextLabel")
 optDesc.Size = UDim2.new(1, 0, 0, 60)
 optDesc.Position = UDim2.new(0, 0, 0.45, 0)
 optDesc.BackgroundTransparency = 1
-optDesc.Text = "Зменшує навантаження на телефон для стабільної гри."
+optDesc.Text = "Зменшує навантаження на телефон."
 optDesc.TextColor3 = Color3.fromRGB(180, 180, 190)
 optDesc.Font = Enum.Font.Gotham
 optDesc.TextSize = 12
@@ -459,7 +459,7 @@ cpsInput.FocusLost:Connect(function()
     end
 end)
 
--- Функція точного кліку по координатах кола з урахуванням відступу екрана
+-- Функції кліка та введення
 local function clickAt(btn)
     local ok, err = pcall(function()
         local inset = GuiService:GetGuiInset()
@@ -472,7 +472,6 @@ local function clickAt(btn)
     end
 end
 
--- Безпечне затискання E
 local function holdKeyE(duration)
     pcall(function()
         VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
@@ -481,7 +480,7 @@ local function holdKeyE(duration)
     end)
 end
 
--- Логіка пошуку та ТП до боса
+-- Логіка пошуку боса
 local function scanAndFightBossWiki()
     local ok, err = pcall(function()
         local targetFound = false
@@ -513,7 +512,7 @@ local function scanAndFightBossWiki()
     if not ok then warn("Помилка Авто-Боса:", err) end
 end
 
--- Логіка пошуку та ТП до яйця
+-- Логіка пошуку яйця
 local function scanAndOpenEgg()
     local ok, err = pcall(function()
         local targetFound = false
@@ -536,4 +535,8 @@ local function scanAndOpenEgg()
                 end
             end
         end
-        
+
+        if targetFound then
+            task.wait(0.2)
+            holdKeyE(0.4)
+             
