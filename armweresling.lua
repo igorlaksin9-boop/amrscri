@@ -539,8 +539,7 @@ RunService.Heartbeat:Connect(function(dt)
         accumulatedTime = accumulatedTime + dt
         local interval = 1 / targetCPS
         while accumulatedTime >= interval do
-            accumulat
-            accumulatedTime = accumulatedTime - interval
+                        accumulatedTime = accumulatedTime - interval
             clickAt(targetCircle)
         end
     else
